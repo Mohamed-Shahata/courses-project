@@ -1,6 +1,7 @@
 import User from "../models/User.model.js";
 import CustomError from "../utils/customerError.js";
 import bcryptjs from "bcryptjs";
+import sendEmail from "../service/emailService.js";
 import { genrateAccessToken, genrateRefreshToken, verifyRefreshToken } from "../utils/token.js";
 
 
@@ -17,6 +18,8 @@ export const register = async (req, res, next) => {
   const newUser = await User.create({
     firstName, lastName, age, email, phoneNumber, phoneWhatsApp, password
   });
+
+  await sendEmail(email, "Welcom to course", "Hello user");
 
   res.status(201).json({ message: "Register successflly", data: newUser });
 }
